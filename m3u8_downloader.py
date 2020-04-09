@@ -108,5 +108,15 @@ def parse_m3u8(html):
     return m3u8
 
 
+def delete_invalid_file():
+    for i in os.listdir('./m3u8/'):
+        for file in os.listdir('./m3u8/{}'.format(i.strip())):
+            path = './m3u8/{0}/{1}/index.m3u8'.format(i.strip(), file.strip())
+            if not os.path.exists(path):
+                print('该目录下无[',path, ']文件，执行删除')
+                os.removedirs('./m3u8/{0}/{1}'.format(i.strip(), file.strip()))
+            
+
 if __name__ == '__main__':
     view_all_list()
+    delete_invalid_file()
