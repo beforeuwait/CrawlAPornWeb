@@ -5,8 +5,8 @@ PROXY_PRO = None
 """
 # 代理格式
 PROXY_PRO = {
-        "http": "xxxxxxxxxxxxxxxxx",
-        "https": "xxxxxxxxxxxxxxxxx",
+        "http": "xxxxxxxxxxxxxxx",
+        "https": "xxxxxxxxxxxxx",
     }
 """
 

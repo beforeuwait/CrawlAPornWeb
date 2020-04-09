@@ -14,9 +14,9 @@ def get_each_category_list():
 
 def downloader_saver(seed):
     link, title, count = seed
-    num = 4
+    num = 1
     while num <= count:
-        print(title, '共{}页'.format(count), '当前下载第{}页'.format(num))
+        print(title, '共{}页'.format(count), '当前下载第{}页\n'.format(num))
         resp = request_get(link, num)
         data = parse_html(resp)
         with open('./list/{}_list.csv'.format(title), 'a', encoding='utf-8') as f:

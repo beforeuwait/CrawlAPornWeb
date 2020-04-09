@@ -18,10 +18,11 @@ FILE_LIST = [i for i in os.listdir('./list')]
 
 def view_all_list():
     for path in FILE_LIST:
-        for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
-            info = i.strip().split('\u0001')
-            info[-1] = path.split('_')[0]
-            lets_get_m3u8_file(info)
+        if path == '国产自拍_list.csv':
+            for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
+                info = i.strip().split('\u0001')
+                info[-1] = path.split('_')[0]
+                lets_get_m3u8_file(info)
 
 
 def lets_get_m3u8_file(info):
@@ -36,6 +37,8 @@ def lets_get_m3u8_file(info):
     print('下载详情页面，搜索 m3u8 地址..')
     html = download_m3u8_url(url)
     m3u8_link = parse_m3u8(html)
+    if m3u8_link == 'http.m3u8':
+        return
     print('当前 m3u8地址为:\t{0}\t开始处理'.format(m3u8_link))
     deal_m3u8(m3u8_link, './m3u8/{0}/{1}/'.format(cate, title))
 
