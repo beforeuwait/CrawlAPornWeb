@@ -47,22 +47,25 @@ def deal_m3u8(url, file_path):
     # 这里需要看第一次下载的m3u8是否可用,是否需要新的跳转
     print('开始下载文件')
     m3u8 = download_m3u8_file(url)
-    if 'index.m3u8' in m3u8:
-        # 说明要重新下载新的
-        print('进对比,需要二次下载')
-        path = re.findall('(\d.*/index.m3u8)', m3u8)[0]
-        print('解析出的新地址:\t{0}'.format(path))
-        url = ''.join([url.split('index')[0], path])
-        print('新的m3u8地址{0}\t开始下载'.format(url))
-        m3u8 = download_m3u8_file(url)
-    save_m3u8_path = ''.join([file_path, 'index.m3u8'])
-    save_url_path = ''.join([file_path, 'url.txt'])
-    print('保存目录:\t{0}'.format(save_m3u8_path))
-    with open(save_m3u8_path, 'w', encoding='utf-8') as f:
-        f.write(m3u8)
-    print('保存该m3u8链接:\t{0}'.format(url))
-    with open(save_url_path, 'w', encoding='utf-8') as f:
-        f.write(url)
+    if m3u8:
+        if 'index.m3u8' in m3u8:
+            # 说明要重新下载新的
+            print('进对比,需要二次下载')
+            path = re.findall('(\d.*/index.m3u8)', m3u8)[0]
+            print('解析出的新地址:\t{0}'.format(path))
+            url = ''.join([url.split('index')[0], path])
+            print('新的m3u8地址{0}\t开始下载'.format(url))
+            m3u8 = download_m3u8_file(url)
+            if m3u8:
+                print('二次下载的m3u8有效..')
+        save_m3u8_path = ''.join([file_path, 'index.m3u8'])
+        save_url_path = ''.join([file_path, 'url.txt'])
+        print('保存目录:\t{0}'.format(save_m3u8_path))
+        with open(save_m3u8_path, 'w', encoding='utf-8') as f:
+            f.write(m3u8)
+        print('保存该m3u8链接:\t{0}'.format(url))
+        with open(save_url_path, 'w', encoding='utf-8') as f:
+            f.write(url)
 
 
 def download_m3u8_file(url):
@@ -113,7 +116,7 @@ def delete_invalid_file():
         for file in os.listdir('./m3u8/{}'.format(i.strip())):
             path = './m3u8/{0}/{1}/index.m3u8'.format(i.strip(), file.strip())
             if not os.path.exists(path):
-                print('该目录下无[',path, ']文件，执行删除')
+                print('该目录下无[', path, ']文件，执行删除')
                 os.removedirs('./m3u8/{0}/{1}'.format(i.strip(), file.strip()))
             
 
