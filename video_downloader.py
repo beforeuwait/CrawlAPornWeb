@@ -154,7 +154,10 @@ def request_get_whitout_heade(uri):
     html = None
     while retry > 0:
         try:
-            resp = requests.get(uri, timeout=30, proxies=PROXY_PRO)
+            if PROXY_PRO:
+                resp = requests.get(uri, timeout=30, proxies=PROXY_PRO)
+            else:
+                resp = requests.get(uri, timeout=30)
             if resp.status_code < 300:
                 html = resp.content
                 break
