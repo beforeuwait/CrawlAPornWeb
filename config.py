@@ -6,10 +6,7 @@ PROXY_PRO = {
     "https": "127.0.0.1:55093"
 }
 
-PROXY_PRO1 = {
-        "http": "http://H10ON18K083OP38P:3C7FD773AA1BDAAB@http-pro.abuyun.com:9010",
-        "https": "http://H10ON18K083OP38P:3C7FD773AA1BDAAB@http-pro.abuyun.com:9010",
-    }
+
 """
 # 代理格式
 PROXY_PRO = {
