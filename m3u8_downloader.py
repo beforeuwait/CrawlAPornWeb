@@ -55,17 +55,21 @@ def deal_m3u8(url, file_path):
             print('解析出的新地址:\t{0}'.format(path))
             url = ''.join([url.split('index')[0], path])
             print('新的m3u8地址{0}\t开始下载'.format(url))
-            m3u8 = download_m3u8_file(url)
-            if m3u8:
+            m3u8_new = download_m3u8_file(url)
+            if m3u8_new:
                 print('二次下载的m3u8有效..')
-                save_m3u8_path = ''.join([file_path, 'index.m3u8'])
-                save_url_path = ''.join([file_path, 'url.txt'])
-                print('保存目录:\t{0}'.format(save_m3u8_path))
-                with open(save_m3u8_path, 'w', encoding='utf-8') as f:
-                    f.write(m3u8)
-                print('保存该m3u8链接:\t{0}'.format(url))
-                with open(save_url_path, 'w', encoding='utf-8') as f:
-                    f.write(url)
+
+        save_m3u8_path = ''.join([file_path, 'index.m3u8'])
+        save_url_path = ''.join([file_path, 'url.txt'])
+        print('保存目录:\t{0}'.format(save_m3u8_path))
+        with open(save_m3u8_path, 'w', encoding='utf-8') as f:
+            if m3u8_new:
+                f.write(m3u8_new)
+            else:
+                f.write(m3u8_new)
+        print('保存该m3u8链接:\t{0}'.format(url))
+        with open(save_url_path, 'w', encoding='utf-8') as f:
+            f.write(url)
 
 
 def download_m3u8_file(url):
