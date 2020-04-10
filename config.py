@@ -1,7 +1,10 @@
 # coding=utf-8
 
 
-PROXY_PRO = None
+PROXY_PRO = PROXY_PRO = {
+    "http": "127.0.0.1:55093",
+    "https": "127.0.0.1:55093"
+}
 """
 # 代理格式
 PROXY_PRO = {

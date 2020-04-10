@@ -18,10 +18,11 @@ FILE_LIST = [i for i in os.listdir('./list')]
 
 def view_all_list():
     for path in FILE_LIST:
-        for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
-            info = i.strip().split('\u0001')
-            info[-1] = path.split('_')[0]
-            lets_get_m3u8_file(info)
+        if '国产自拍' in path:
+            for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
+                info = i.strip().split('\u0001')
+                info[-1] = path.split('_')[0]
+                lets_get_m3u8_file(info)
 
 
 def lets_get_m3u8_file(info):
@@ -57,14 +58,14 @@ def deal_m3u8(url, file_path):
             m3u8 = download_m3u8_file(url)
             if m3u8:
                 print('二次下载的m3u8有效..')
-        save_m3u8_path = ''.join([file_path, 'index.m3u8'])
-        save_url_path = ''.join([file_path, 'url.txt'])
-        print('保存目录:\t{0}'.format(save_m3u8_path))
-        with open(save_m3u8_path, 'w', encoding='utf-8') as f:
-            f.write(m3u8)
-        print('保存该m3u8链接:\t{0}'.format(url))
-        with open(save_url_path, 'w', encoding='utf-8') as f:
-            f.write(url)
+                save_m3u8_path = ''.join([file_path, 'index.m3u8'])
+                save_url_path = ''.join([file_path, 'url.txt'])
+                print('保存目录:\t{0}'.format(save_m3u8_path))
+                with open(save_m3u8_path, 'w', encoding='utf-8') as f:
+                    f.write(m3u8)
+                print('保存该m3u8链接:\t{0}'.format(url))
+                with open(save_url_path, 'w', encoding='utf-8') as f:
+                    f.write(url)
 
 
 def download_m3u8_file(url):

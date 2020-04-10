@@ -5,6 +5,7 @@ import os
 import re
 import time
 import requests
+import shutil
 from copy import deepcopy
 from Crypto.Cipher import AES
 from config_real import PROXY_PRO
@@ -12,20 +13,24 @@ from multiprocessing import Pool
 
 
 def all_m3u8_file():
-    pool = Pool(5)
     for i in os.listdir('./m3u8/'):
-        for file in os.listdir('./m3u8/{}'.format(i.strip())):
-            path = './m3u8/{0}/{1}'.format(i.strip(), file.strip())
-            deal_m3u8_file(path, pool)
+        if i.strip() == '国产自拍':
+            for file in os.listdir('./m3u8/{}'.format(i.strip())):
+                path = './m3u8/{0}/{1}'.format(i.strip(), file.strip())
+                deal_m3u8_file(path)
 
 
-def deal_m3u8_file(path, pool):
+def deal_m3u8_file(path):
     print(path)
+    already_crawl = set([i.strip() for i in open('./already_crawl.txt', 'r', encoding='utf-8')])
     dot, m3u8, cate, title = path.split('/')
     seed_dict = parse_m3u8(path)
     # 这里需要更改path了
     print('更新目录')
     path_tmp = '/'.join([dot, 'video_tmp', cate, title])
+    if path_tmp in already_crawl:
+        print('当前文件已经下载,\t{}'.format(path_tmp))
+        return
     path_normal = '/'.join([dot, 'video', cate, title])
     if not os.path.exists('/'.join([dot, 'video', cate])):
         print('创建正式目录:\t{0}'.format('/'.join([dot, 'video', cate])))
@@ -40,6 +45,7 @@ def deal_m3u8_file(path, pool):
         print('当前视频未加密')
     # 开始下载
     print('启动多进程开始下载视频片段')
+    pool = Pool(10)
     n = 1
     for i in seed_dict.get('data'):
         url = ''.join([uri, i])
@@ -86,9 +92,15 @@ def all_in_one(n, path_tmp, path_normal):
             p = open(''.join([path_tmp, '/{}.ts'.format(i)]), 'rb')
             f.write(p.read())
             p.close()
+            os.remove(''.join([path_tmp, '/{}.ts'.format(i)]))
+    
     # 合并完成，开始删除
+    # 不便于去重
     print('删除临时目录:\t{}'.format(path_tmp))
-    os.removedirs(path_tmp)
+    shutil.rmtree(path_tmp)
+    # 记录已经采集
+    with open('./already_crawl.txt', 'a', encoding='utf-8') as f:
+        f.write(path_tmp + '\n')
 
 
 def download_ts(path, url, key, n):
@@ -99,6 +111,9 @@ def download_ts(path, url, key, n):
         print('开始解密')
         cryptor = AES.new(key.encode('utf-8'), AES.MODE_CBC, key.encode('utf-8'))
         ts_content = cryptor.decrypt(ts_content)
+        print('保存切片')
+        with open(''.join([path, '/{0}.ts'.format(n)]), 'wb') as f:
+            f.write(ts_content)
     elif ts_content:
         print('保存切片')
         with open(''.join([path, '/{0}.ts'.format(n)]), 'wb') as f:
