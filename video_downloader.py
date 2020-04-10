@@ -12,13 +12,6 @@ from config_real import PROXY_PRO
 from multiprocessing import Pool
 
 
-"""
-key = ""
-cryptor = AES.new(key.encode('utf-8'), AES.MODE_CBC, key.encode('utf-8'))
-res = cryptor.decrypt('二进制')
-"""
-
-
 def all_m3u8_file():
     pool = Pool(3)
     for i in os.listdir('./m3u8/'):

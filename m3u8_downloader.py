@@ -122,4 +122,5 @@ def delete_invalid_file():
 
 if __name__ == '__main__':
     view_all_list()
+    # 删除无效的
     delete_invalid_file()
