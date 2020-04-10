@@ -7,19 +7,16 @@ import time
 import requests
 from copy import deepcopy
 from Crypto.Cipher import AES
-from binascii import b2a_hex, a2b_hex
 from config_real import PROXY_PRO
 from multiprocessing import Pool
 
 
 def all_m3u8_file():
-    pool = Pool(3)
+    pool = Pool(5)
     for i in os.listdir('./m3u8/'):
         for file in os.listdir('./m3u8/{}'.format(i.strip())):
             path = './m3u8/{0}/{1}'.format(i.strip(), file.strip())
             deal_m3u8_file(path, pool)
-            break
-        break
 
 
 def deal_m3u8_file(path, pool):
@@ -46,11 +43,11 @@ def deal_m3u8_file(path, pool):
     n = 1
     for i in seed_dict.get('data'):
         url = ''.join([uri, i])
-        download_ts(path_tmp, url, key, n)
-        # pool.apply_async(download_ts, (path_tmp, url, key, n))
+        # download_ts(path_tmp, url, key, n)
+        pool.apply_async(download_ts, (path_tmp, url, key, n))
         n += 1
-    # pool.close()
-    # pool.join()
+    pool.close()
+    pool.join()
     # 下载完毕后，验证完整性,开始合并任务，并删除tmp文件
     while True:
         print('效验文件完整度.........')

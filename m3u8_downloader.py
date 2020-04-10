@@ -18,11 +18,10 @@ FILE_LIST = [i for i in os.listdir('./list')]
 
 def view_all_list():
     for path in FILE_LIST:
-        if path == '国产自拍_list.csv':
-            for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
-                info = i.strip().split('\u0001')
-                info[-1] = path.split('_')[0]
-                lets_get_m3u8_file(info)
+        for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
+            info = i.strip().split('\u0001')
+            info[-1] = path.split('_')[0]
+            lets_get_m3u8_file(info)
 
 
 def lets_get_m3u8_file(info):
