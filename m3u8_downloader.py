@@ -70,6 +70,8 @@ def deal_m3u8(url, file_path):
         print('保存该m3u8链接:\t{0}'.format(url))
         with open(save_url_path, 'w', encoding='utf-8') as f:
             f.write(url)
+    else:
+        print('m3u8文件不存在....')
 
 
 def download_m3u8_file(url):
@@ -100,6 +102,10 @@ def download_m3u8_url(url):
                 resp = requests.get(url, headers=HEADERS_LIST, proxies=PROXY_PRO)
             else:
                 resp = requests.get(url, headers=HEADERS_LIST)
+            print('状态码', resp.status_code)
+            if resp.status_code > 400:
+                # 粗暴点
+                break
             if resp.status_code < 300:
                 html = resp.content.decode('utf-8')
                 break

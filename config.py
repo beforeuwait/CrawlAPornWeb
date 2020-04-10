@@ -1,12 +1,12 @@
 # coding=utf-8
 
 
-PROXY_PRO1 = {
+PROXY_PRO = {
     "http": "127.0.0.1:55093",
     "https": "127.0.0.1:55093"
 }
 
-PROXY_PRO = {
+PROXY_PRO1 = {
         "http": "http://H10ON18K083OP38P:3C7FD773AA1BDAAB@http-pro.abuyun.com:9010",
         "https": "http://H10ON18K083OP38P:3C7FD773AA1BDAAB@http-pro.abuyun.com:9010",
     }

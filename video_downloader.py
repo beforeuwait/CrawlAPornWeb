@@ -65,7 +65,7 @@ def deal_m3u8_file(path):
                 if t in redownload_list:
                     url = ''.join([uri, i])
                     print('重新下载编号为:\t{}\t的文件'.format(t))
-                    download_ts(path_tmp, url, key, n)
+                    download_ts(path_tmp, url, key, t)
                 t += 1
         else:
             print('文件完整')
@@ -105,6 +105,8 @@ def all_in_one(n, path_tmp, path_normal):
 
 def download_ts(path, url, key, n):
     print('接收到任务:{}\t开始处理'.format(n))
+    if os.path.exists(''.join([path, '/{0}.ts'.format(n)])):
+        return
     ts_content = request_get_whitout_heade(url)
     if key and ts_content:
         # 开始解密
