@@ -27,6 +27,7 @@ def view_all_list():
 
 def lets_get_m3u8_file(info):
     title, url, cate = info
+    title = title.replace('?', '_').replace('!', '_')
     print('=========\n当前是:\t', cate, title, url)
     if not os.path.exists('./m3u8/{0}/{1}/'.format(cate, title)):
         print('目录不存在，创建目录:', './m3u8/{0}/{1}/'.format(cate, title))
@@ -48,6 +49,7 @@ def deal_m3u8(url, file_path):
     print('开始下载文件')
     m3u8 = download_m3u8_file(url)
     if m3u8:
+        print('已经访问到m3u8文件')
         if 'index.m3u8' in m3u8:
             # 说明要重新下载新的
             print('进对比,需要二次下载')
@@ -58,15 +60,13 @@ def deal_m3u8(url, file_path):
             m3u8_new = download_m3u8_file(url)
             if m3u8_new:
                 print('二次下载的m3u8有效..')
+                m3u8 = m3u8_new
 
         save_m3u8_path = ''.join([file_path, 'index.m3u8'])
         save_url_path = ''.join([file_path, 'url.txt'])
         print('保存目录:\t{0}'.format(save_m3u8_path))
         with open(save_m3u8_path, 'w', encoding='utf-8') as f:
-            if m3u8_new:
-                f.write(m3u8_new)
-            else:
-                f.write(m3u8_new)
+                f.write(m3u8)
         print('保存该m3u8链接:\t{0}'.format(url))
         with open(save_url_path, 'w', encoding='utf-8') as f:
             f.write(url)
