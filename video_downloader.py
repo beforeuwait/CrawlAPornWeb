@@ -14,10 +14,10 @@ from multiprocessing import Pool
 
 def all_m3u8_file():
     for i in os.listdir('./m3u8/'):
-        if i.strip() == '国产自拍':
-            for file in os.listdir('./m3u8/{}'.format(i.strip())):
-                path = './m3u8/{0}/{1}'.format(i.strip(), file.strip())
-                deal_m3u8_file(path)
+        # if i.strip() == '国产自拍':
+        for file in os.listdir('./m3u8/{}'.format(i.strip())):
+            path = './m3u8/{0}/{1}'.format(i.strip(), file.strip())
+            deal_m3u8_file(path)
 
 
 def deal_m3u8_file(path):

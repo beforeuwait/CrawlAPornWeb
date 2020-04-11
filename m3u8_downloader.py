@@ -18,11 +18,11 @@ FILE_LIST = [i for i in os.listdir('./list')]
 
 def view_all_list():
     for path in FILE_LIST:
-        if '国产自拍' in path:
-            for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
-                info = i.strip().split('\u0001')
-                info[-1] = path.split('_')[0]
-                lets_get_m3u8_file(info)
+        # if '国产自拍' in path:
+        for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
+            info = i.strip().split('\u0001')
+            info[-1] = path.split('_')[0]
+            lets_get_m3u8_file(info)
 
 
 def lets_get_m3u8_file(info):
@@ -124,13 +124,13 @@ def parse_m3u8(html):
 def delete_invalid_file():
     for i in os.listdir('./m3u8/'):
         for file in os.listdir('./m3u8/{}'.format(i.strip())):
-            path = './m3u8/{0}/{1}/index.m3u8'.format(i.strip(), file.strip())
+            path = './m3u8/{0}/{1}/index.m3u8'.format(i.strip(), file)
             if not os.path.exists(path):
                 print('该目录下无[', path, ']文件，执行删除')
-                os.removedirs('./m3u8/{0}/{1}'.format(i.strip(), file.strip()))
+                os.removedirs('./m3u8/{0}/{1}/'.format(i.strip(), file))
             
 
 if __name__ == '__main__':
-    view_all_list()
+    # view_all_list()
     # 删除无效的
     delete_invalid_file()
