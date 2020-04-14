@@ -18,7 +18,6 @@ FILE_LIST = [i for i in os.listdir('./list')]
 
 def view_all_list():
     for path in FILE_LIST:
-        # if '国产自拍' in path:
         for i in open(''.join(['./list/', path]), 'r', encoding='utf-8'):
             info = i.strip().split('\u0001')
             info[-1] = path.split('_')[0]
@@ -27,7 +26,7 @@ def view_all_list():
 
 def lets_get_m3u8_file(info):
     title, url, cate = info
-    title = title.replace('?', '_').replace('!', '_')
+    title = deal_title(title)
     print('=========\n当前是:\t', cate, title, url)
     if not os.path.exists('./m3u8/{0}/{1}/'.format(cate, title)):
         print('目录不存在，创建目录:', './m3u8/{0}/{1}/'.format(cate, title))
@@ -42,6 +41,13 @@ def lets_get_m3u8_file(info):
         return
     print('当前 m3u8地址为:\t{0}\t开始处理'.format(m3u8_link))
     deal_m3u8(m3u8_link, './m3u8/{0}/{1}/'.format(cate, title))
+
+
+def deal_title(title):
+    """
+    文件夹不能带特殊字符 * \ / < > ! ?
+    """
+    return title.replace('?', '_').replace('!', '_').replace('\\', '_').replace('/', '_').replace('*', '').replace('<', '_').replace('>', '_')
 
 
 def deal_m3u8(url, file_path):
@@ -131,6 +137,6 @@ def delete_invalid_file():
             
 
 if __name__ == '__main__':
-    # view_all_list()
+    view_all_list()
     # 删除无效的
     delete_invalid_file()
