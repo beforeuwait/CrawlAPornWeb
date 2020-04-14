@@ -14,7 +14,6 @@ from multiprocessing import Pool
 
 def all_m3u8_file():
     for i in os.listdir('./m3u8/'):
-        # if i.strip() == '国产自拍':
         for file in os.listdir('./m3u8/{}'.format(i.strip())):
             path = './m3u8/{0}/{1}'.format(i.strip(), file.strip())
             deal_m3u8_file(path)
@@ -61,12 +60,15 @@ def deal_m3u8_file(path):
         if redownload_list:
             # 重新下载
             t = 1
+            pool = Pool(5)
             for i in seed_dict.get('data'):
                 if t in redownload_list:
                     url = ''.join([uri, i])
                     print('重新下载编号为:\t{}\t的文件'.format(t))
-                    download_ts(path_tmp, url, key, t)
+                    pool.apply_async(download_ts, (path, url, key, t))
                 t += 1
+            pool.close()
+            pool.join()
         else:
             print('文件完整')
             break
